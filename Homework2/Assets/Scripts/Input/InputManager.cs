@@ -1,13 +1,12 @@
+using System;
 using UnityEngine;
 
 namespace ShootEmUp
 {
     public sealed class InputManager : MonoBehaviour
     {
-        public float HorizontalDirection { get; private set; }
-
-        [SerializeField]
-        private GameObject character;
+        public Action OnFirePressed;
+        public Action<float> OnHorizontalDirectionChanged;
 
         [SerializeField]
         private CharacterController characterController;
@@ -16,26 +15,21 @@ namespace ShootEmUp
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                characterController._fireRequired = true;
+                OnFirePressed?.Invoke();
             }
 
-            if (Input.GetKey(KeyCode.LeftArrow))
+            if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
             {
-                this.HorizontalDirection = -1;
+                OnHorizontalDirectionChanged?.Invoke(-1f);
             }
-            else if (Input.GetKey(KeyCode.RightArrow))
+            else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
             {
-                this.HorizontalDirection = 1;
+                OnHorizontalDirectionChanged?.Invoke(1f);
             }
             else
             {
-                this.HorizontalDirection = 0;
+                OnHorizontalDirectionChanged?.Invoke(0f);
             }
-        }
-        
-        private void FixedUpdate()
-        {
-            this.character.GetComponent<MoveComponent>().MoveByRigidbodyVelocity(new Vector2(this.HorizontalDirection, 0) * Time.fixedDeltaTime);
         }
     }
 }

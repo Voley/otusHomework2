@@ -12,45 +12,45 @@ namespace ShootEmUp
         [SerializeField] private EnemyMoveAgent moveAgent;
         [SerializeField] private float countdown;
 
-        private GameObject target;
-        private float currentTime;
+        private GameObject _target;
+        private float _currentTime;
 
         public void SetTarget(GameObject target)
         {
-            this.target = target;
+            _target = target;
         }
 
         public void Reset()
         {
-            this.currentTime = this.countdown;
+            _currentTime = countdown;
         }
 
         private void FixedUpdate()
         {
-            if (!this.moveAgent.IsReached)
+            if (!moveAgent.IsReached)
             {
                 return;
             }
             
-            if (!this.target.GetComponent<HitPointsComponent>().IsHitPointsExists())
+            if (!_target.GetComponent<HitPointsComponent>().IsAlive)
             {
                 return;
             }
 
-            this.currentTime -= Time.fixedDeltaTime;
-            if (this.currentTime <= 0)
+            _currentTime -= Time.fixedDeltaTime;
+            if (_currentTime <= 0)
             {
-                this.Fire();
-                this.currentTime += this.countdown;
+                Fire();
+                _currentTime += countdown;
             }
         }
 
         private void Fire()
         {
-            var startPosition = this.weaponComponent.Position;
-            var vector = (Vector2) this.target.transform.position - startPosition;
+            var startPosition = weaponComponent.Position;
+            var vector = (Vector2) _target.transform.position - startPosition;
             var direction = vector.normalized;
-            this.OnFire?.Invoke(this.gameObject, startPosition, direction);
+            OnFire?.Invoke(gameObject, startPosition, direction);
         }
     }
 }
