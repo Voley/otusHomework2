@@ -11,6 +11,7 @@ namespace ShootEmUp
 
         private GameState _state;
 
+
         public void AddListener(IGameListener listener)
         {
             _listeners.Add(listener);
@@ -59,14 +60,14 @@ namespace ShootEmUp
         }
 
         private void Awake()
-        {
+        { 
             _listeners = new List<IGameListener>();
-
-            StartLoading();
+            ServiceLocator.Shared.AddService(this);
         }
 
         private void Start()
         {
+            StartLoading();
             StartGame();
         }
     }

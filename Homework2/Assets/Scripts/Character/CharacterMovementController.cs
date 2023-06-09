@@ -5,15 +5,22 @@ using UnityEngine;
 namespace ShootEmUp
 {
     [RequireComponent(typeof(MoveComponent))]
-    public class CharacterMovementController : MonoBehaviour
+    public class CharacterMovementController : MonoBehaviour, IGameLoadingListener
     {
-        [SerializeField] InputManager _inputManager;
         [SerializeField] MoveComponent _moveComponent;
 
+        private InputManager _inputManager;
         private Vector2 _movementVector;
 
         private void Awake()
         {
+            FindObjectOfType<GameManager>().AddListener(this);
+            ServiceLocator.Shared.AddService(this);
+        }
+
+        public void OnGameLoading()
+        {
+            _inputManager = ServiceLocator.Shared.GetService<InputManager>();
             _inputManager.OnHorizontalDirectionChanged += ChangeMovementVector;
         }
 

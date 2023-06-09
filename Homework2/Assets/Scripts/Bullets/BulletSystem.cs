@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class BulletSystem : MonoBehaviour
+    public sealed class BulletSystem : MonoBehaviour, IGameLoadingListener
     {
         [SerializeField]
         private int _initialCount = 50;
@@ -20,13 +20,19 @@ namespace ShootEmUp
         
         private void Awake()
         {
+            FindObjectOfType<GameManager>().AddListener(this);
+            ServiceLocator.Shared.AddService(this);
+        }
+
+        public void OnGameLoading()
+        {
             for (var i = 0; i < _initialCount; i++)
             {
                 var bullet = _bulletSpawner.SpawnBulletIn(_container);
                 _bulletPool.Enqueue(bullet);
             }
         }
-        
+
         private void FixedUpdate()
         {
             _bulletCache.Clear();
@@ -76,6 +82,6 @@ namespace ShootEmUp
                 bullet.transform.SetParent(_container);
                 _bulletPool.Enqueue(bullet);
             }
-        }  
+        }
     }
 }

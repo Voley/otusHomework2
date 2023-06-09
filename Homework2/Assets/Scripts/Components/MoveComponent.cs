@@ -12,8 +12,8 @@ namespace ShootEmUp
         
         public void MoveByVelocity(Vector2 vector)
         {
-            var nextPosition = GetComponent<Rigidbody2D>().position + vector * _speed;
-            GetComponent<Rigidbody2D>().MovePosition(nextPosition);
+            var nextPosition = _rigidbody2D.position + vector * _speed;
+            _rigidbody2D.MovePosition(nextPosition);
         }
     }
 }

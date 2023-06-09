@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class ServiceLocator: MonoBehaviour
 {
-    public ServiceLocator Shared => _instance; 
+    public static ServiceLocator Shared => _instance; 
 
     private readonly List<object> _services = new List<object>();
 
-    private ServiceLocator _instance;
+    private static ServiceLocator _instance;
 
     public List<T> GetServices<T>()
     {

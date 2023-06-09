@@ -5,19 +5,27 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-
     [RequireComponent(typeof(WeaponComponent))]
-    public class CharacterFireController : MonoBehaviour
+    public class CharacterFireController : MonoBehaviour, IGameLoadingListener
     {
-        [SerializeField] private BulletSystem _bulletSystem;
         [SerializeField] private BulletConfig _bulletConfig;
-        [SerializeField] private InputManager _inputManager;
         [SerializeField] private WeaponComponent _weaponComponent;
+
+        private BulletSystem _bulletSystem;
+        private InputManager _inputManager;
 
         private bool _shouldShootNextFrame;
 
         private void Awake()
         {
+            FindObjectOfType<GameManager>().AddListener(this);
+            ServiceLocator.Shared.AddService(this);
+        }
+
+        public void OnGameLoading()
+        {
+            _inputManager = ServiceLocator.Shared.GetService<InputManager>();
+            _bulletSystem = ServiceLocator.Shared.GetService<BulletSystem>();
             _inputManager.OnFirePressed += SetShouldShootNextFixedUpdate;
         }
 
