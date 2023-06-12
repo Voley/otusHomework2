@@ -5,34 +5,25 @@ namespace ShootEmUp
 {
     public sealed class GameManager : MonoBehaviour
     {
-        private List<IGameListener> _listeners;
-
         public GameState State => _state;
-
         private GameState _state;
 
-
-        public void AddListener(IGameListener listener)
+        public void ResolveDependencies()
         {
-            _listeners.Add(listener);
-        }
-
-        public void StartLoading()
-        {
-            foreach (var listener in _listeners)
+            foreach (var listener in ServiceLocator.Shared.GetServices<IGameResolveDependenciesListener>())
             {
-                if (listener is IGameLoadingListener loadingListener)
+                if (listener is IGameResolveDependenciesListener resolver)
                 {
-                    loadingListener.OnGameLoading();
+                    resolver.OnGameResolvingDependencies();
                 }
             }
 
-            _state = GameState.Loading;
+            _state = GameState.ResolvingDependencies;
         }
 
         public void StartGame()
         {
-            foreach (var listener in _listeners)
+            foreach (var listener in ServiceLocator.Shared.GetServices<IGameStartListener>())
             {
                 if (listener is IGameStartListener startListener)
                 {
@@ -45,7 +36,7 @@ namespace ShootEmUp
 
         public void FinishGame()
         {
-            foreach (var listener in _listeners)
+            foreach (var listener in ServiceLocator.Shared.GetServices<IGameFinishListener>())
             {
                 if (listener is IGameFinishListener finishListener)
                 {
@@ -59,15 +50,9 @@ namespace ShootEmUp
             Time.timeScale = 0;
         }
 
-        private void Awake()
-        { 
-            _listeners = new List<IGameListener>();
-            ServiceLocator.Shared.AddService(this);
-        }
-
         private void Start()
         {
-            StartLoading();
+            ResolveDependencies();
             StartGame();
         }
     }

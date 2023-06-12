@@ -2,73 +2,75 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ServiceLocator: MonoBehaviour
+namespace ShootEmUp
 {
-    public static ServiceLocator Shared => _instance; 
-
-    private readonly List<object> _services = new List<object>();
-
-    private static ServiceLocator _instance;
-
-    public List<T> GetServices<T>()
+    public class ServiceLocator
     {
-        var result = new List<T>();
+        public static ServiceLocator Shared => GetInstance();
 
-        foreach (var service in _services)
+        private readonly List<object> _services = new List<object>();
+
+        private static ServiceLocator _instance;
+
+        public List<T> GetServices<T>()
         {
-            if (service is T tService)
+            var result = new List<T>();
+
+            foreach (var service in _services)
             {
-                result.Add(tService);
+                if (service is T tService)
+                {
+                    result.Add(tService);
+                }
             }
+
+            return result;
         }
 
-        return result;
-    }
-
-    public object GetService(Type serviceType)
-    {
-        foreach (var service in _services)
+        public object GetService(Type serviceType)
         {
-            if (serviceType.IsInstanceOfType(service))
+            foreach (var service in _services)
             {
-                return service;
+                if (serviceType.IsInstanceOfType(service))
+                {
+                    return service;
+                }
             }
+
+            throw new Exception($"Service of type {serviceType.Name} is not found!");
         }
 
-        throw new Exception($"Service of type {serviceType.Name} is not found!");
-    }
-
-    public T GetService<T>()
-    {
-        foreach (var service in _services)
+        public T GetService<T>()
         {
-            if (service is T result)
+            foreach (var service in _services)
             {
-                return result;
+                if (service is T result)
+                {
+                    return result;
+                }
             }
+
+            throw new Exception($"Service of type {typeof(T).Name} is not found!");
         }
 
-        throw new Exception($"Service of type {typeof(T).Name} is not found!");
-    }
-
-    public void AddService(object service)
-    {
-        _services.Add(service);
-    }
-
-    public void AddServices(IEnumerable<object> services)
-    {
-        _services.AddRange(services);
-    }
-
-    private void Awake()
-    {
-        if (_instance != null)
+        public void AddService(object service)
         {
-            Destroy(gameObject);
-            return;
+            _services.Add(service);
         }
 
-        _instance = this;
+        public void AddServices(IEnumerable<object> services)
+        {
+            _services.AddRange(services);
+        }
+
+        private static ServiceLocator GetInstance()
+        {
+            if (_instance == null)
+            {
+                _instance = new ServiceLocator();
+            }
+
+            return _instance;
+        }
     }
 }

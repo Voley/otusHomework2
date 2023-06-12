@@ -6,26 +6,20 @@ using UnityEngine;
 namespace ShootEmUp
 {
     [RequireComponent(typeof(WeaponComponent))]
-    public class CharacterFireController : MonoBehaviour, IGameLoadingListener
+    public class CharacterFireController : MonoBehaviour, IGameResolveDependenciesListener
     {
         [SerializeField] private BulletConfig _bulletConfig;
         [SerializeField] private WeaponComponent _weaponComponent;
 
-        private BulletSystem _bulletSystem;
+        private BulletTracker _bulletTracker;
         private InputManager _inputManager;
 
         private bool _shouldShootNextFrame;
 
-        private void Awake()
-        {
-            FindObjectOfType<GameManager>().AddListener(this);
-            ServiceLocator.Shared.AddService(this);
-        }
-
-        public void OnGameLoading()
+        public void OnGameResolvingDependencies()
         {
             _inputManager = ServiceLocator.Shared.GetService<InputManager>();
-            _bulletSystem = ServiceLocator.Shared.GetService<BulletSystem>();
+            _bulletTracker = ServiceLocator.Shared.GetService<BulletTracker>();
             _inputManager.OnFirePressed += SetShouldShootNextFixedUpdate;
         }
 
@@ -52,7 +46,7 @@ namespace ShootEmUp
         {
             Vector2 velocity = _weaponComponent.Rotation * (Vector3.up * _bulletConfig.speed);
             BulletData bulletData = BulletData.BulletWithConfig(_bulletConfig, _weaponComponent.Position, velocity, true);
-            _bulletSystem.FlyBulletByArgs(bulletData);
+            _bulletTracker.FlyBulletByArgs(bulletData);
         }
     }
 }

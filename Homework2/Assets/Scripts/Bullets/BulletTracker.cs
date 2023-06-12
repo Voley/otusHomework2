@@ -3,34 +3,19 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class BulletSystem : MonoBehaviour, IGameLoadingListener
+    public sealed class BulletTracker : MonoBehaviour, IGameResolveDependenciesListener
     {
-        [SerializeField]
-        private int _initialCount = 50;
-        
-        [SerializeField] private Transform _container;
-        [SerializeField] private Transform _worldTransform;
         [SerializeField] private LevelBounds _levelBounds;
+        [SerializeField] private Transform _worldTransform;
 
-        [SerializeField] private BulletSpawner _bulletSpawner;
-
-        private readonly Queue<Bullet> _bulletPool = new();
         private readonly HashSet<Bullet> _activeBullets = new();
         private readonly List<Bullet> _bulletCache = new();
         
-        private void Awake()
-        {
-            FindObjectOfType<GameManager>().AddListener(this);
-            ServiceLocator.Shared.AddService(this);
-        }
+        private BulletPool _bulletPool;
 
-        public void OnGameLoading()
+        public void OnGameResolvingDependencies()
         {
-            for (var i = 0; i < _initialCount; i++)
-            {
-                var bullet = _bulletSpawner.SpawnBulletIn(_container);
-                _bulletPool.Enqueue(bullet);
-            }
+            _bulletPool = ServiceLocator.Shared.GetService<BulletPool>();
         }
 
         private void FixedUpdate()
@@ -51,14 +36,9 @@ namespace ShootEmUp
 
         public void FlyBulletByArgs(BulletData data)
         {
-            if (_bulletPool.TryDequeue(out var bullet))
-            {
-                bullet.transform.SetParent(_worldTransform);
-            }
-            else
-            {
-                bullet = _bulletSpawner.SpawnBulletIn(_worldTransform);
-            }
+            var bullet = _bulletPool.Bullet();
+
+            bullet.transform.SetParent(_worldTransform);
 
             bullet.SetData(data);
             
@@ -79,9 +59,9 @@ namespace ShootEmUp
             if (_activeBullets.Remove(bullet))
             {
                 bullet.OnCollisionEntered -= OnBulletCollision;
-                bullet.transform.SetParent(_container);
-                _bulletPool.Enqueue(bullet);
             }
+
+            _bulletPool.RemoveBullet(bullet);
         }
     }
 }

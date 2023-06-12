@@ -2,19 +2,13 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class CharacterController : MonoBehaviour, IGameLoadingListener
+    public sealed class CharacterController : MonoBehaviour, IGameResolveDependenciesListener
     {
         [SerializeField] private HitPointsComponent _characterHealth;
 
         private GameManager _gameManager;
 
-        private void Awake()
-        {
-            FindObjectOfType<GameManager>().AddListener(this);
-            ServiceLocator.Shared.AddService(this);
-        }
-
-        public void OnGameLoading()
+        public void OnGameResolvingDependencies()
         {
             _gameManager = ServiceLocator.Shared.GetService<GameManager>();
         }

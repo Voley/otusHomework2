@@ -4,9 +4,9 @@ using UnityEngine;
 
 public interface IGameListener { }
 
-public interface IGameLoadingListener : IGameListener
+public interface IGameResolveDependenciesListener : IGameListener
 {
-    public void OnGameLoading();
+    public void OnGameResolvingDependencies();
 }
 
 public interface IGameStartListener : IGameListener

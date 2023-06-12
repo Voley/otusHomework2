@@ -3,20 +3,14 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class InputManager : MonoBehaviour, IGameLoadingListener
+    public sealed class InputManager : MonoBehaviour, IGameResolveDependenciesListener
     {
         public Action OnFirePressed;
         public Action<float> OnHorizontalDirectionChanged;
 
         private GameManager _gameManager;
 
-        private void Awake()
-        {
-            FindObjectOfType<GameManager>().AddListener(this);
-            ServiceLocator.Shared.AddService(this);
-        }
-
-        public void OnGameLoading()
+        public void OnGameResolvingDependencies()
         {
             _gameManager = ServiceLocator.Shared.GetService<GameManager>();
         }
@@ -28,7 +22,6 @@ namespace ShootEmUp
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 OnFirePressed?.Invoke();
-                Debug.Log("Space pressed");
             }
 
             if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))

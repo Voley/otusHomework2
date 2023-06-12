@@ -4,7 +4,8 @@ using UnityEngine;
 
 public enum GameState
 {
-    Loading,
+    Loaded,
+    ResolvingDependencies,
     Playing,
     Finished
 }
