@@ -12,20 +12,22 @@ namespace ShootEmUp
         [SerializeField] private WeaponComponent _weaponComponent;
 
         private BulletTracker _bulletTracker;
-        private InputManager _inputManager;
+        private InputFireManager _inputFireManager;
 
         private bool _shouldShootNextFrame;
 
         public void OnGameResolvingDependencies()
         {
-            _inputManager = ServiceLocator.Shared.GetService<InputManager>();
+            _inputFireManager = ServiceLocator.Shared.GetService<InputFireManager>();
+            _inputFireManager.OnFirePressed += SetShouldShootNextFixedUpdate;
+
             _bulletTracker = ServiceLocator.Shared.GetService<BulletTracker>();
-            _inputManager.OnFirePressed += SetShouldShootNextFixedUpdate;
+            
         }
 
         private void OnDestroy()
         {
-            _inputManager.OnFirePressed -= SetShouldShootNextFixedUpdate;
+            _inputFireManager.OnFirePressed -= SetShouldShootNextFixedUpdate;
         }
 
         private void FixedUpdate()

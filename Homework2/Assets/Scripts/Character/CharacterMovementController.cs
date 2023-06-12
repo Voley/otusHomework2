@@ -9,18 +9,18 @@ namespace ShootEmUp
     {
         [SerializeField] MoveComponent _moveComponent;
 
-        private InputManager _inputManager;
+        private InputMovementManager _inputMovementManager;
         private Vector2 _movementVector;
 
-        public void OnGameResolvingDependencies()
+        void IGameResolveDependenciesListener.OnGameResolvingDependencies()
         {
-            _inputManager = ServiceLocator.Shared.GetService<InputManager>();
-            _inputManager.OnHorizontalDirectionChanged += ChangeMovementVector;
+            _inputMovementManager = ServiceLocator.Shared.GetService<InputMovementManager>();
+            _inputMovementManager.OnHorizontalDirectionChanged += ChangeMovementVector;
         }
 
         private void OnDestroy()
         {
-            _inputManager.OnHorizontalDirectionChanged -= ChangeMovementVector;
+            _inputMovementManager.OnHorizontalDirectionChanged -= ChangeMovementVector;
         }
 
         private void ChangeMovementVector(float horizontalDirection)

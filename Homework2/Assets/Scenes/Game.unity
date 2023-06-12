@@ -511,7 +511,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameManager: {fileID: 3951702117947426123}
-  _inputManager: {fileID: 1134805361}
+  _inputMovementManager: {fileID: 1134805361}
+  _inputFireManager: {fileID: 1134805362}
   _bulletSpawner: {fileID: 363245578}
   _bulletTracker: {fileID: 363245577}
   _bulletPool: {fileID: 363245579}
@@ -594,6 +595,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1134805360}
   - component: {fileID: 1134805361}
+  - component: {fileID: 1134805362}
   m_Layer: 0
   m_Name: InputManager
   m_TagString: Untagged
@@ -626,6 +628,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b55e0c0d37f64d1f835fe367d4939922, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1134805362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1134805359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0042df8eb2bc3bc44b6917b1aef9e688, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1217711861

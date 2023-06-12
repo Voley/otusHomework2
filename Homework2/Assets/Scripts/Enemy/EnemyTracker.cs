@@ -12,7 +12,7 @@ namespace ShootEmUp
 
         private HashSet<GameObject> _activeEnemies = new();
 
-        public void OnGameResolvingDependencies()
+        void IGameResolveDependenciesListener.OnGameResolvingDependencies()
         {
             _timedEnemySpawner = ServiceLocator.Shared.GetService<TimedEnemySpawner>();
             _timedEnemySpawner.OnEnemySpawned += StartTrackingEnemy;

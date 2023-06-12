@@ -8,7 +8,7 @@ namespace ShootEmUp
 
         private GameManager _gameManager;
 
-        public void OnGameResolvingDependencies()
+        void IGameResolveDependenciesListener.OnGameResolvingDependencies()
         {
             _gameManager = ServiceLocator.Shared.GetService<GameManager>();
         }

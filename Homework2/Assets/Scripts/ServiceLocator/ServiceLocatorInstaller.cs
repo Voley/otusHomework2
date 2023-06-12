@@ -8,7 +8,8 @@ namespace ShootEmUp
     public class ServiceLocatorInstaller : MonoBehaviour
     {
         [SerializeField] private GameManager _gameManager;
-        [SerializeField] private InputManager _inputManager;
+        [SerializeField] private InputMovementManager _inputMovementManager;
+        [SerializeField] private InputFireManager _inputFireManager;
         [SerializeField] private BulletSpawner _bulletSpawner;
         [SerializeField] private BulletTracker _bulletTracker;
         [SerializeField] private BulletPool _bulletPool;
@@ -23,7 +24,8 @@ namespace ShootEmUp
         private void Awake()
         {
             ServiceLocator.Shared.AddService(_gameManager);
-            ServiceLocator.Shared.AddService(_inputManager);
+            ServiceLocator.Shared.AddService(_inputMovementManager);
+            ServiceLocator.Shared.AddService(_inputFireManager);
             ServiceLocator.Shared.AddService(_bulletSpawner);
             ServiceLocator.Shared.AddService(_bulletTracker);
             ServiceLocator.Shared.AddService(_bulletPool);

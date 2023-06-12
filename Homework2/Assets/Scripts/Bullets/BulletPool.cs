@@ -24,7 +24,7 @@ public class BulletPool : MonoBehaviour, IGameResolveDependenciesListener
         return extraBullet;
     }
 
-    public void OnGameResolvingDependencies()
+    void IGameResolveDependenciesListener.OnGameResolvingDependencies()
     {
         _bulletQueue = new Queue<Bullet>(_initialCount);
         _bulletSpawner = ServiceLocator.Shared.GetService<BulletSpawner>();

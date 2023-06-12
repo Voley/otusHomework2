@@ -3,27 +3,27 @@ using UnityEngine;
 
 namespace ShootEmUp
 {
-    public sealed class InputManager : MonoBehaviour, IGameResolveDependenciesListener
+    public sealed class InputMovementManager : MonoBehaviour, IGameStartListener, IGameFinishListener
     {
-        public Action OnFirePressed;
         public Action<float> OnHorizontalDirectionChanged;
 
-        private GameManager _gameManager;
-
-        public void OnGameResolvingDependencies()
+        private void Awake()
         {
-            _gameManager = ServiceLocator.Shared.GetService<GameManager>();
+            enabled = false;
+        }
+
+        void IGameStartListener.OnGameStarted()
+        {
+            enabled = true;
+        }
+
+        void IGameFinishListener.OnGameFinished()
+        {
+            enabled = false;
         }
 
         private void Update()
         {
-            if (_gameManager == null || _gameManager.State != GameState.Playing) return;
-
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                OnFirePressed?.Invoke();
-            }
-
             if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
             {
                 OnHorizontalDirectionChanged?.Invoke(-1f);

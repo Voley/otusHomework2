@@ -13,7 +13,7 @@ namespace ShootEmUp
         
         private BulletPool _bulletPool;
 
-        public void OnGameResolvingDependencies()
+        void IGameResolveDependenciesListener.OnGameResolvingDependencies()
         {
             _bulletPool = ServiceLocator.Shared.GetService<BulletPool>();
         }
