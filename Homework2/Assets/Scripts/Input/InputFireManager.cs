@@ -12,12 +12,12 @@ namespace ShootEmUp
             enabled = false;
         }
 
-        public void OnGameStarted()
+        void IGameStartListener.OnGameStarted()
         {
             enabled = true;
         }
 
-        public void OnGameFinished()
+        void IGameFinishListener.OnGameFinished()
         {
             enabled = false;
         }

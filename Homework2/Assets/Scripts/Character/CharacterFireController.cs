@@ -16,7 +16,7 @@ namespace ShootEmUp
 
         private bool _shouldShootNextFrame;
 
-        public void OnGameResolvingDependencies()
+        void IGameResolveDependenciesListener.OnGameResolvingDependencies()
         {
             _inputFireManager = ServiceLocator.Shared.GetService<InputFireManager>();
             _inputFireManager.OnFirePressed += SetShouldShootNextFixedUpdate;

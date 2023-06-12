@@ -9,7 +9,7 @@ namespace ShootEmUp
     {
         [SerializeField] private GameManager _gameManager;
         [SerializeField] private InputMovementManager _inputMovementManager;
-        [SerializeField] private InputFireManager _inputFireManager;
+        [SerializeField] private InputFireManager _inputFireManager;    
         [SerializeField] private BulletSpawner _bulletSpawner;
         [SerializeField] private BulletTracker _bulletTracker;
         [SerializeField] private BulletPool _bulletPool;
