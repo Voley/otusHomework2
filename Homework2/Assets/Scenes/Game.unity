@@ -264,7 +264,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _levelBounds: {fileID: 2572952653776768186}
-  _worldTransform: {fileID: 1683128698}
 --- !u!114 &363245578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,6 +277,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _prefab: {fileID: 201757604187811891, guid: 5fe72886874b4e445b06cf777ca4920d, type: 3}
+  _worldTransform: {fileID: 0}
 --- !u!114 &363245579
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -291,7 +291,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _container: {fileID: 1217711862}
-  _initialCount: 50
+  _bulletPoolSize: 50
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -436,10 +436,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bdcdf257e0242258e7a67fe13d80e5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyPositions: {fileID: 7166351703523243261}
   _character: {fileID: 4414282821800802397}
   _worldTransform: {fileID: 1683128698}
   _container: {fileID: 178513672}
+  _enemyPoolSize: 10
 --- !u!114 &562298208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -452,8 +452,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee5a289ef4e2772479c182fcf73a4f68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _character: {fileID: 4414282821800802397}
   _enemyPrefab: {fileID: 559606060570185700, guid: 87fe189881a524806800482ac8eaaa83,
     type: 3}
+  _enemyPositions: {fileID: 7166351703523243261}
+  _pool: {fileID: 562298207}
 --- !u!114 &562298209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -466,6 +469,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09ac9f0d62c9c444bba0c7af8ac7a556, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enemySpawnInterval: 1
 --- !u!1 &797165914
 GameObject:
   m_ObjectHideFlags: 0

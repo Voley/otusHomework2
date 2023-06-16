@@ -11,7 +11,7 @@ namespace ShootEmUp
         [SerializeField] private BulletConfig _bulletConfig;
         [SerializeField] private WeaponComponent _weaponComponent;
 
-        private BulletTracker _bulletTracker;
+        private BulletSpawner _bulletSpawner;
         private InputFireManager _inputFireManager;
 
         private bool _shouldShootNextFrame;
@@ -20,9 +20,7 @@ namespace ShootEmUp
         {
             _inputFireManager = ServiceLocator.Shared.GetService<InputFireManager>();
             _inputFireManager.OnFirePressed += SetShouldShootNextFixedUpdate;
-
-            _bulletTracker = ServiceLocator.Shared.GetService<BulletTracker>();
-            
+            _bulletSpawner = ServiceLocator.Shared.GetService<BulletSpawner>();
         }
 
         private void OnDestroy()
@@ -47,8 +45,8 @@ namespace ShootEmUp
         private void Shoot()
         {
             Vector2 velocity = _weaponComponent.Rotation * (Vector3.up * _bulletConfig.speed);
-            BulletData bulletData = BulletData.BulletWithConfig(_bulletConfig, _weaponComponent.Position, velocity, true);
-            _bulletTracker.FlyBulletByArgs(bulletData);
+            BulletData bulletData = BulletData.PlayerBulletData(_bulletConfig, _weaponComponent.Position, velocity);
+            _bulletSpawner.FlyBulletByArgs(bulletData);
         }
     }
 }

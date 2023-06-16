@@ -7,7 +7,7 @@ using UnityEngine;
 public class BulletPool : MonoBehaviour, IGameResolveDependenciesListener
 {
     [SerializeField] private Transform _container;
-    [SerializeField] private int _initialCount = 50;
+    [SerializeField] private int _bulletPoolSize = 50;
 
     private Queue<Bullet> _bulletQueue;
     private BulletSpawner _bulletSpawner;
@@ -26,10 +26,10 @@ public class BulletPool : MonoBehaviour, IGameResolveDependenciesListener
 
     void IGameResolveDependenciesListener.OnGameResolvingDependencies()
     {
-        _bulletQueue = new Queue<Bullet>(_initialCount);
+        _bulletQueue = new Queue<Bullet>(_bulletPoolSize);
         _bulletSpawner = ServiceLocator.Shared.GetService<BulletSpawner>();
 
-        for (var i = 0; i < _initialCount; i++)
+        for (var i = 0; i < _bulletPoolSize; i++)
         {
             var bullet = _bulletSpawner.SpawnBulletIn(_container);
             _bulletQueue.Enqueue(bullet);

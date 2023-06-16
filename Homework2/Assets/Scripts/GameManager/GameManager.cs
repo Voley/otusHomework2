@@ -12,10 +12,7 @@ namespace ShootEmUp
         {
             foreach (var listener in ServiceLocator.Shared.GetServices<IGameResolveDependenciesListener>())
             {
-                if (listener is IGameResolveDependenciesListener resolver)
-                {
-                    resolver.OnGameResolvingDependencies();
-                }
+                listener.OnGameResolvingDependencies();
             }
 
             _state = GameState.ResolvingDependencies;
@@ -25,10 +22,7 @@ namespace ShootEmUp
         {
             foreach (var listener in ServiceLocator.Shared.GetServices<IGameStartListener>())
             {
-                if (listener is IGameStartListener startListener)
-                {
-                    startListener.OnGameStarted();
-                }
+                listener.OnGameStarted(); 
             }
 
             _state = GameState.Playing;
@@ -38,10 +32,7 @@ namespace ShootEmUp
         {
             foreach (var listener in ServiceLocator.Shared.GetServices<IGameFinishListener>())
             {
-                if (listener is IGameFinishListener finishListener)
-                {
-                    finishListener.OnGameFinished();
-                }
+                listener.OnGameFinished();
             }
 
             _state = GameState.Finished;

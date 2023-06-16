@@ -6,13 +6,13 @@ using UnityEngine;
 
 public class TimedEnemySpawner : MonoBehaviour, IGameResolveDependenciesListener, IGameStartListener
 {
-    public Action<HitPointsComponent, EnemyAttackAgent> OnEnemySpawned;
+    [SerializeField] private float _enemySpawnInterval;
 
-    private EnemyPool _enemyPool;
+    private EnemySpawner _enemySpawner;
 
     void IGameResolveDependenciesListener.OnGameResolvingDependencies()
     {
-        _enemyPool = ServiceLocator.Shared.GetService<EnemyPool>();
+        _enemySpawner = ServiceLocator.Shared.GetService<EnemySpawner>();
     }
 
     void IGameStartListener.OnGameStarted()
@@ -24,13 +24,13 @@ public class TimedEnemySpawner : MonoBehaviour, IGameResolveDependenciesListener
     {
         while (true)
         {
-            yield return new WaitForSeconds(1);
-            var enemy = _enemyPool.GetEnemy();
-
-            if (enemy != null)
-            {
-                OnEnemySpawned?.Invoke(enemy.GetComponent<HitPointsComponent>(), enemy.GetComponent<EnemyAttackAgent>());
-            }
+            yield return new WaitForSeconds(_enemySpawnInterval);
+            _ = _enemySpawner.GetEnemy();
         }
+    }
+
+    public void RemoveEnemy(GameObject enemy)
+    {
+        _enemySpawner.DespawnEnemy(enemy);
     }
 }
